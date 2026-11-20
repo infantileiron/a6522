@@ -24,6 +24,10 @@ class ReviewRequest(Request):
     note: str = Field(min_length=1, max_length=500)
     decision: str = Field(default='', max_length=120)
 
+class SwapRequest(Request):
+    suspects: list[str] = Field(min_length=1, max_length=1000)
+    dataset_id: int | None = Field(default=None, gt=0)
+
 class ScheduleRequest(RunRequest):
     recipient: str = Field(min_length=1, max_length=100)
     first_at: datetime

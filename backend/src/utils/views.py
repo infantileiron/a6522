@@ -25,3 +25,16 @@ def schedule(item):
 def delivery(item):
     return {'id': item.id, 'run_id': item.run_id, 'recipient': item.recipient,
             'state': item.state, 'detail': item.detail, 'created_at': iso(item.created_at)}
+
+
+def swap(item, detail=False):
+    result = item.result or {}
+    item_view = {'id': item.id, 'run_id': item.run_id, 'dataset_id': item.dataset_id,
+                 'author': item.author, 'created_at': iso(item.created_at),
+                 'recomputed_at': iso(item.recomputed_at),
+                 'suspect_count': result.get('suspect_count', len(item.suspects)),
+                 'state': result.get('state'), 'headline': result.get('headline'),
+                 'min_swaps': result.get('min_swaps')}
+    if detail:
+        item_view.update(suspects=item.suspects, result=result)
+    return item_view
